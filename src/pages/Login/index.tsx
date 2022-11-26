@@ -7,6 +7,7 @@ import * as yup from "yup";
 import { Container, LoginContainer, Column, Spacing, Title } from "./styles";
 import { defaultValues, IFormLogin } from "./types";
 
+
 const schema = yup
   .object({
     email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
@@ -19,7 +20,7 @@ const schema = yup
 
 const Login = () => {
   const {
-    control,
+    control, handleSubmit,
     formState: { errors, isValid },
   } = useForm<IFormLogin>({
     resolver: yupResolver(schema),
@@ -27,8 +28,14 @@ const Login = () => {
     defaultValues,
     reValidateMode: "onChange",
   });
-
+ 
+  const onSubmit = (data: any) => { 
+    console.log('Botão habilitado')
+  }
+  
+  
   return (
+    
     <Container>
       <LoginContainer>
         <Column>
@@ -49,7 +56,7 @@ const Login = () => {
             errorMessage={errors?.password?.message}
           />
           <Spacing />
-          <Button title="Entrar" />
+          <Button title="Entrar" onClick={handleSubmit(onSubmit)} disabled={!isValid}/>
         </Column>
       </LoginContainer>
     </Container>
